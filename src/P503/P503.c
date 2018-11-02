@@ -4,7 +4,7 @@
 * Abstract: supersingular isogeny parameters and generation of functions for P503
 *********************************************************************************************/  
 
-#include "P503_api.h" 
+#include "sidh/P503_api.h"
 #include "P503_internal.h"
 
 

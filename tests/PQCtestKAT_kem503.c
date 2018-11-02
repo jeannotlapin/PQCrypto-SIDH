@@ -10,7 +10,7 @@
 #include <string.h>
 #include <ctype.h>
 #include "rng/rng.h"
-#include "../src/P503/P503_api.h"
+#include "sidh/P503_api.h"
 
 
 #define	MAX_MARKER_LEN		50

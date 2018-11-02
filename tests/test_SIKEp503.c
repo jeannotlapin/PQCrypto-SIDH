@@ -7,7 +7,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "test_extras.h"
-#include "../src/P503/P503_api.h"
+#include "sidh/P503_api.h"
 
 
 #define SCHEME_NAME    "SIKEp503"

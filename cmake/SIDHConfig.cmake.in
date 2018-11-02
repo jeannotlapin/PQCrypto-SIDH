@@ -1,0 +1,84 @@
+############################################################################
+# SIDHConfig.cmake
+# Copyright (C) 2018  Johan Pascal
+#
+############################################################################
+#
+# MIT License
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in all
+# copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+# AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+# SOFTWARE.
+#
+############################################################################
+#
+# Config file for the SIDH package.
+# It defines the following variables:
+#
+#  SIDHP503_FOUND - system has SIDH p503
+#  SIDHP503_INCLUDE_DIRS - the SIDH p503 include directory
+#  SIDHP503_LIBRARIES - The libraries needed to use SIDH p503
+#  SIDHP751_FOUND - system has SIDH p751
+#  SIDHP751_INCLUDE_DIRS - the SIDH p751 include directory
+#  SIDHP751_LIBRARIES - The libraries needed to use SIDH p751
+
+
+if(@ENABLE_SHARED@)
+	if (@ENABLE_P503@)
+		set(P503_TARGETNAME p503)
+		set(SIDHP503_LIBRARIES ${P503_TARGETNAME})
+	endif()
+	if (@ENABLE_P751@)
+		set(P751_TARGETNAME p751)
+		set(SIDHP751_LIBRARIES ${P751_TARGETNAME})
+	endif()
+else()
+	if (@ENABLE_P503@)
+		set(P503_TARGETNAME p503-static)
+		if(TARGET ${P503_TARGETNAME})
+			get_target_property(SIDHP503_LIBRARIES ${P503_TARGETNAME} LOCATION)
+			get_target_property(SIDHP503_LINK_LIBRARIES ${P503_TARGETNAME} INTERFACE_LINK_LIBRARIES)
+			if(SIDHP503_LINK_LIBRARIES)
+				list(APPEND SIDHP503_LIBRARIES ${SIDH_LINK_LIBRARIES})
+			endif()
+		endif()
+	endif()
+
+	if (@ENABLE_P751@)
+		set(P751_TARGETNAME p751-static)
+		if(TARGET ${P751_TARGETNAME})
+			get_target_property(SIDHP751_LIBRARIES ${P751_TARGETNAME} LOCATION)
+			get_target_property(SIDHP751_LINK_LIBRARIES ${P751_TARGETNAME} INTERFACE_LINK_LIBRARIES)
+			if(SIDHP751_LINK_LIBRARIES)
+				list(APPEND SIDHP751_LIBRARIES ${SIDH_LINK_LIBRARIES})
+			endif()
+		endif()
+	endif()
+endif()
+
+if (@ENABLE_P503@)
+	get_target_property(SIDHP503_INCLUDE_DIRS ${P503_TARGETNAME} INTERFACE_INCLUDE_DIRECTORIES)
+	list(INSERT SIDHP503_INCLUDE_DIRS 0 "@CMAKE_INSTALL_FULL_INCLUDEDIR@")
+	list(REMOVE_DUPLICATES SIDHP503_INCLUDE_DIRS)
+	set(SIDHP503_FOUND 1)
+endif()
+if (@ENABLE_P751@)
+	get_target_property(SIDHP751_INCLUDE_DIRS ${P751_TARGETNAME} INTERFACE_INCLUDE_DIRECTORIES)
+	list(INSERT SIDHP751_INCLUDE_DIRS 0 "@CMAKE_INSTALL_FULL_INCLUDEDIR@")
+	list(REMOVE_DUPLICATES SIDHP751_INCLUDE_DIRS)
+	set(SIDHP751_FOUND 1)
+endif()

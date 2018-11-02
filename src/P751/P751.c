@@ -4,7 +4,7 @@
 * Abstract: supersingular isogeny parameters and generation of functions for P751
 *********************************************************************************************/  
 
-#include "P751_api.h" 
+#include "sidh/P751_api.h"
 #include "P751_internal.h"
 
 
