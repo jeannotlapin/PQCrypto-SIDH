@@ -6,6 +6,11 @@
 
 #ifndef __P503_API_H__
 #define __P503_API_H__
+
+#ifdef __cplusplus
+extern "C" {
+#endif
+
     
 
 /*********************** Key encapsulation mechanism API ***********************/
@@ -103,5 +108,9 @@ int EphemeralSecretAgreement_B_SIDHp503(const unsigned char* PrivateKeyB, const 
 // Public keys PublicKeyA and PublicKeyB consist of 3 elements in GF(p503^2). In the SIDH API, they are encoded in 378 octets. 
 // Shared keys SharedSecretA and SharedSecretB consist of one element in GF(p503^2). In the SIDH API, they are encoded in 126 octets.
 
+
+#ifdef __cplusplus
+} /* extern "C" */
+#endif
 
 #endif
