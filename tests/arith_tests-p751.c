@@ -22,7 +22,7 @@
 #endif
 
 
-bool fp_test()
+bool fp_test(void)
 { // Tests for the field arithmetic
     bool OK = true;
     int n, passed;
@@ -187,7 +187,7 @@ bool fp_test()
 }
 
 
-bool fp2_test()
+bool fp2_test(void)
 { // Tests for the quadratic extension field arithmetic
     bool OK = true;
     int n, passed;
@@ -344,7 +344,7 @@ bool fp2_test()
 }
 
 
-bool fp_run()
+bool fp_run(void)
 {
     bool OK = true;
     int n;
@@ -423,7 +423,7 @@ bool fp_run()
 }
 
 
-bool fp2_run()
+bool fp2_run(void)
 {
     bool OK = true;
     int n;
@@ -499,7 +499,7 @@ bool fp2_run()
 }
 
 
-bool ecisog_run()
+bool ecisog_run(void)
 {
     bool OK = true;
     int n;
@@ -596,7 +596,7 @@ bool ecisog_run()
 }
 
 
-int main()
+int main(void)
 {
     bool OK = true;
 

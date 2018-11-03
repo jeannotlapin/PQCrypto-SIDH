@@ -15,7 +15,7 @@
 #endif
 
 
-int cryptotest_kex()
+int cryptotest_kex(void)
 { // Testing key exchange
     unsigned int i;
     unsigned char PrivateKeyA[SIDH_SECRETKEYBYTES], PrivateKeyB[SIDH_SECRETKEYBYTES];
@@ -50,7 +50,7 @@ int cryptotest_kex()
 }
 
 
-int cryptorun_kex()
+int cryptorun_kex(void)
 { // Benchmarking key exchange
     unsigned int n;
     unsigned char PrivateKeyA[SIDH_SECRETKEYBYTES], PrivateKeyB[SIDH_SECRETKEYBYTES];
@@ -113,7 +113,7 @@ int cryptorun_kex()
 }
 
 
-int main()
+int main(void)
 {
     int Status = PASSED;
     

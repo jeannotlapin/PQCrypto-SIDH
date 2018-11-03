@@ -15,7 +15,7 @@
 #endif
 
 
-int cryptotest_kem()
+int cryptotest_kem(void)
 { // Testing KEM
     unsigned int i;
     unsigned char sk[CRYPTO_SECRETKEYBYTES] = {0};
@@ -48,7 +48,7 @@ int cryptotest_kem()
 }
 
 
-int cryptorun_kem()
+int cryptorun_kem(void)
 { // Benchmarking key exchange
     unsigned int n;
     unsigned char sk[CRYPTO_SECRETKEYBYTES] = {0};
@@ -101,7 +101,7 @@ int cryptorun_kem()
 }
 
 
-int main()
+int main(void)
 {
     int Status = PASSED;
     
