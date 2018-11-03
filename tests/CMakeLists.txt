@@ -44,6 +44,9 @@ set(KAT_TESTER_SOURCES
 	aes/aes_c.c
 	)
 
+# Copy KAT files in tester binary directory so they can run
+file(COPY ../KAT DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
+
 if (ENABLE_P503)
 	add_executable(arith_tests_p503_exe ${TESTER_SOURCES} arith_tests-p503.c)
 	set_target_properties(arith_tests_p503_exe PROPERTIES OUTPUT_NAME arith_tests-p503)
@@ -63,6 +66,7 @@ if (ENABLE_P503)
 	add_executable(PQCtestKAT_kem_p503_exe ${TESTER_SOURCES} ${KAT_TESTER_SOURCES} PQCtestKAT_kem503.c )
 	set_target_properties(PQCtestKAT_kem_p503_exe PROPERTIES OUTPUT_NAME PQCtestKAT_kem-p503)
 	target_link_libraries(PQCtestKAT_kem_p503_exe PRIVATE ${PROJECT_P503_LIBS})
+	add_test(NAME KAT_p503 COMMAND PQCtestKAT_kem-p503)
 
 endif()
 
@@ -85,4 +89,5 @@ if (ENABLE_P751)
 	add_executable(PQCtestKAT_kem_p751_exe ${TESTER_SOURCES} ${KAT_TESTER_SOURCES} PQCtestKAT_kem751.c )
 	set_target_properties(PQCtestKAT_kem_p751_exe PROPERTIES OUTPUT_NAME PQCtestKAT_kem-p751)
 	target_link_libraries(PQCtestKAT_kem_p751_exe PRIVATE ${PROJECT_P751_LIBS})
+	add_test(NAME KAT_p751 COMMAND PQCtestKAT_kem-p751)
 endif()

@@ -608,5 +608,6 @@ int main(void)
     
     OK = OK && ecisog_run();       // Benchmark elliptic curve and isogeny functions
 
-    return OK;
+    if (OK == true) return 0;
+    return -1;
 }
