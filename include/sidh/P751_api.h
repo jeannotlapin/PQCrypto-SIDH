@@ -11,35 +11,44 @@
 extern "C" {
 #endif
 
-    
+/* set API visibility */
+#ifdef SIDH_EXPORTS
+#ifdef _MSC_VER
+#define SIDH_PUBLIC	__declspec(dllexport)
+#else /* _MSC_VER */
+#define SIDH_PUBLIC	__attribute__((visibility("default")))
+#endif /* _MSC_VER */
+#else /* SIDH_EXPORTS */
+#define SIDH_PUBLIC
+#endif /* SIDH_EXPORTS */
 
 /*********************** Key encapsulation mechanism API ***********************/
 
-#define CRYPTO_SECRETKEYBYTES     644    // MSG_BYTES + SECRETKEY_B_BYTES + CRYPTO_PUBLICKEYBYTES bytes
-#define CRYPTO_PUBLICKEYBYTES     564
-#define CRYPTO_BYTES               24
-#define CRYPTO_CIPHERTEXTBYTES    596    // CRYPTO_PUBLICKEYBYTES + MSG_BYTES bytes
+#define SIKEp751_SECRETKEYBYTES     644    // MSG_BYTES + SECRETKEY_B_BYTES + SIKEp751_PUBLICKEYBYTES bytes
+#define SIKEp751_PUBLICKEYBYTES     564
+#define SIKEp751_SHAREDBYTES         24
+#define SIKEp751_CIPHERTEXTBYTES    596    // SIKEp751_PUBLICKEYBYTES + MSG_BYTES bytes
 
 // Algorithm name
-#define CRYPTO_ALGNAME "SIKEp751"  
+#define SIKEp751_ALGNAME "SIKEp751"  
 
 // SIKE's key generation
 // It produces a private key sk and computes the public key pk.
-// Outputs: secret key sk (CRYPTO_SECRETKEYBYTES = 644 bytes)
-//          public key pk (CRYPTO_PUBLICKEYBYTES = 564 bytes) 
-int crypto_kem_keypair_SIKEp751(unsigned char *pk, unsigned char *sk);
+// Outputs: secret key sk (SIKEp751_SECRETKEYBYTES = 644 bytes)
+//          public key pk (SIKEp751_PUBLICKEYBYTES = 564 bytes) 
+SIDH_PUBLIC int crypto_kem_keypair_SIKEp751(unsigned char *pk, unsigned char *sk);
 
 // SIKE's encapsulation
-// Input:   public key pk         (CRYPTO_PUBLICKEYBYTES = 564 bytes)
-// Outputs: shared secret ss      (CRYPTO_BYTES = 24 bytes)
-//          ciphertext message ct (CRYPTO_CIPHERTEXTBYTES = 596 bytes) 
-int crypto_kem_enc_SIKEp751(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
+// Input:   public key pk         (SIKEp751_PUBLICKEYBYTES = 564 bytes)
+// Outputs: shared secret ss      (SIKEp751_SHAREDBYTES = 24 bytes)
+//          ciphertext message ct (SIKEp751_CIPHERTEXTBYTES = 596 bytes) 
+SIDH_PUBLIC int crypto_kem_enc_SIKEp751(unsigned char *ct, unsigned char *ss, const unsigned char *pk);
 
 // SIKE's decapsulation
-// Input:   secret key sk         (CRYPTO_SECRETKEYBYTES = 644 bytes)
-//          ciphertext message ct (CRYPTO_CIPHERTEXTBYTES = 596 bytes) 
-// Outputs: shared secret ss      (CRYPTO_BYTES = 24 bytes)
-int crypto_kem_dec_SIKEp751(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
+// Input:   secret key sk         (SIKEp751_SECRETKEYBYTES = 644 bytes)
+//          ciphertext message ct (SIKEp751_CIPHERTEXTBYTES = 596 bytes) 
+// Outputs: shared secret ss      (SIKEp751_SHAREDBYTES = 24 bytes)
+SIDH_PUBLIC int crypto_kem_dec_SIKEp751(unsigned char *ss, const unsigned char *ct, const unsigned char *sk);
 
 
 // Encoding of keys for KEM-based isogeny system "SIKEp751" (wire format):
@@ -56,9 +65,9 @@ int crypto_kem_dec_SIKEp751(unsigned char *ss, const unsigned char *ct, const un
 
 /*********************** Ephemeral key exchange API ***********************/
 
-#define SIDH_SECRETKEYBYTES      48
-#define SIDH_PUBLICKEYBYTES     564
-#define SIDH_BYTES              188 
+#define SIDHp751_SECRETKEYBYTES      48
+#define SIDHp751_PUBLICKEYBYTES     564
+#define SIDHp751_SHAREDBYTES        188 
 
 // SECURITY NOTE: SIDH supports ephemeral Diffie-Hellman key exchange. It is NOT secure to use it with static keys.
 // See "On the Security of Supersingular Isogeny Cryptosystems", S.D. Galbraith, C. Petit, B. Shani and Y.B. Ti, in ASIACRYPT 2016, 2016.
@@ -66,36 +75,36 @@ int crypto_kem_dec_SIKEp751(unsigned char *ss, const unsigned char *ct, const un
 
 // Generation of Alice's secret key 
 // Outputs random value in [0, 2^372 - 1] to be used as Alice's private key
-void random_mod_order_A_SIDHp751(unsigned char* random_digits);
+SIDH_PUBLIC void random_mod_order_A_SIDHp751(unsigned char* random_digits);
 
 // Generation of Bob's secret key 
 // Outputs random value in [0, 2^Floor(Log(2,3^239)) - 1] to be used as Bob's private key
-void random_mod_order_B_SIDHp751(unsigned char* random_digits);
+SIDH_PUBLIC void random_mod_order_B_SIDHp751(unsigned char* random_digits);
 
 // Alice's ephemeral public key generation
 // Input:  a private key PrivateKeyA in the range [0, 2^372 - 1], stored in 47 bytes. 
 // Output: the public key PublicKeyA consisting of 3 GF(p751^2) elements encoded in 564 bytes.
-int EphemeralKeyGeneration_A_SIDHp751(const unsigned char* PrivateKeyA, unsigned char* PublicKeyA);
+SIDH_PUBLIC int EphemeralKeyGeneration_A_SIDHp751(const unsigned char* PrivateKeyA, unsigned char* PublicKeyA);
 
 // Bob's ephemeral key-pair generation
 // It produces a private key PrivateKeyB and computes the public key PublicKeyB.
 // The private key is an integer in the range [0, 2^Floor(Log(2,3^239)) - 1], stored in 48 bytes.  
 // The public key consists of 3 GF(p751^2) elements encoded in 564 bytes.
-int EphemeralKeyGeneration_B_SIDHp751(const unsigned char* PrivateKeyB, unsigned char* PublicKeyB);
+SIDH_PUBLIC int EphemeralKeyGeneration_B_SIDHp751(const unsigned char* PrivateKeyB, unsigned char* PublicKeyB);
 
 // Alice's ephemeral shared secret computation
 // It produces a shared secret key SharedSecretA using her secret key PrivateKeyA and Bob's public key PublicKeyB
 // Inputs: Alice's PrivateKeyA is an integer in the range [0, 2^372 - 1], stored in 47 bytes. 
 //         Bob's PublicKeyB consists of 3 GF(p751^2) elements encoded in 564 bytes.
 // Output: a shared secret SharedSecretA that consists of one element in GF(p751^2) encoded in 188 bytes.
-int EphemeralSecretAgreement_A_SIDHp751(const unsigned char* PrivateKeyA, const unsigned char* PublicKeyB, unsigned char* SharedSecretA);
+SIDH_PUBLIC int EphemeralSecretAgreement_A_SIDHp751(const unsigned char* PrivateKeyA, const unsigned char* PublicKeyB, unsigned char* SharedSecretA);
 
 // Bob's ephemeral shared secret computation
 // It produces a shared secret key SharedSecretB using his secret key PrivateKeyB and Alice's public key PublicKeyA
 // Inputs: Bob's PrivateKeyB is an integer in the range [0, 2^Floor(Log(2,3^239)) - 1], stored in 48 bytes.  
 //         Alice's PublicKeyA consists of 3 GF(p751^2) elements encoded in 564 bytes.
 // Output: a shared secret SharedSecretB that consists of one element in GF(p751^2) encoded in 188 bytes. 
-int EphemeralSecretAgreement_B_SIDHp751(const unsigned char* PrivateKeyB, const unsigned char* PublicKeyA, unsigned char* SharedSecretB);
+SIDH_PUBLIC int EphemeralSecretAgreement_B_SIDHp751(const unsigned char* PrivateKeyB, const unsigned char* PublicKeyA, unsigned char* SharedSecretB);
 
 
 // Encoding of keys for KEX-based isogeny system "SIDHp751" (wire format):

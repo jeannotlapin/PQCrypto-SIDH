@@ -19,4 +19,8 @@
 #define EphemeralSecretAgreement_A    EphemeralSecretAgreement_A_SIDHp503
 #define EphemeralSecretAgreement_B    EphemeralSecretAgreement_B_SIDHp503
 
+#define SIDH_SECRETKEYBYTES	SIDHp503_SECRETKEYBYTES
+#define SIDH_PUBLICKEYBYTES	SIDHp503_PUBLICKEYBYTES
+#define SIDH_BYTES		SIDHp503_SHAREDBYTES
+
 #include "test_sidh.c"

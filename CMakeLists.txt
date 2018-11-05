@@ -26,6 +26,7 @@
 #
 ############################################################################
 include(GNUInstallDirs)
+include(CMakeDependentOption)
 
 cmake_minimum_required(VERSION 3.0)
 
@@ -39,6 +40,7 @@ option(ENABLE_SHARED "Build shared library." ON)
 option(ENABLE_STATIC "Build static library." ON)
 option(ENABLE_STRICT "Pass strict flags to the compiler" ON)
 option(ENABLE_TESTS "Enable compilation of tests" ON)
+cmake_dependent_option(ENABLE_INTERNAL_TESTS "Enable compilation of internal tests(produce a library with full symbol visibility)" OFF ENABLE_TESTS OFF)
 option(ENABLE_OPTIMIZATIONS "Use assembler optimized code if available(for x86_64 and arm64 processors)" ON)
 option(USE_MULX "When available use additional optimization" ON)
 option(USE_ADDX "When available use additional optimization" ON)
@@ -91,6 +93,12 @@ if(NOT CPACK_GENERATOR AND NOT CMAKE_INSTALL_RPATH AND CMAKE_INSTALL_PREFIX)
 endif()
 
 add_definitions("-D__LINUX__")
+
+# manage API visibility : for internal testing, all symbol shall be accessibles
+if (NOT ENABLE_INTERNAL_TESTS)
+add_definitions("-DSIDH_EXPORTS")
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fvisibility=hidden ")
+endif()
 
 include_directories(
 	include

@@ -67,6 +67,34 @@ typedef struct { f2elm_t X; f2elm_t Z; } point_proj;                  // Point r
 typedef point_proj point_proj_t[1]; 
 
 
+#define copy_words	p503_copy_words
+#define mp_add		p503_mp_add
+#define mp_sub		p503_mp_sub
+#define mp_shiftleft	p503_mp_shiftleft
+#define mp_shiftr1	p503_mp_shiftr1
+#define mp_shiftl1	p503_mp_shiftl1
+#define digit_x_digit	p503_digit_x_digit
+#define mp_mul		p503_mp_mul
+#define rdc_mont	p503_rdc_mont
+#define to_mont		p503_to_mont
+#define from_mont	p503_from_mont
+#define to_fp2mont	p503_to_fp2mont
+#define from_fp2mont	p503_from_fp2mont
+#define mont_n_way_inv	p503_mont_n_way_inv
+#define j_inv		p503_j_inv
+#define xDBLADD		p503_xDBLADD
+#define xDBL		p503_xDBL
+#define xDBLe		p503_xDBLe
+#define xADD		p503_xADD
+#define get_4_isog	p503_get_4_isog
+#define eval_4_isog	p503_eval_4_isog
+#define xTPL		p503_xTPL
+#define xTPLe		p503_xTPLe
+#define get_3_isog	p503_get_3_isog
+#define eval_3_isog	p503_eval_3_isog
+#define inv_3_way	p503_inv_3_way
+#define get_A		p503_get_A
+
 
 /**************** Function prototypes ****************/
 /************* Multiprecision functions **************/ 

@@ -16,4 +16,9 @@
 #define crypto_kem_enc                crypto_kem_enc_SIKEp503
 #define crypto_kem_dec                crypto_kem_dec_SIKEp503
 
+#define CRYPTO_SECRETKEYBYTES	SIKEp503_SECRETKEYBYTES
+#define CRYPTO_PUBLICKEYBYTES	SIKEp503_PUBLICKEYBYTES
+#define CRYPTO_BYTES		SIKEp503_SHAREDBYTES
+#define CRYPTO_CIPHERTEXTBYTES	SIKEp503_CIPHERTEXTBYTES
+
 #include "test_sike.c"

@@ -48,10 +48,18 @@ set(KAT_TESTER_SOURCES
 file(COPY ../KAT DESTINATION ${CMAKE_CURRENT_BINARY_DIR})
 
 if (ENABLE_P503)
-	add_executable(arith_tests_p503_exe ${TESTER_SOURCES} arith_tests-p503.c)
-	set_target_properties(arith_tests_p503_exe PROPERTIES OUTPUT_NAME arith_tests-p503)
-	target_link_libraries(arith_tests_p503_exe PRIVATE ${PROJECT_P503_LIBS})
-	add_test(NAME arith_p503 COMMAND arith_tests-p503)
+	# arith and KAT tests need direct access to some internal functions
+	if (ENABLE_INTERNAL_TESTS)
+		add_executable(arith_tests_p503_exe ${TESTER_SOURCES} arith_tests-p503.c)
+		set_target_properties(arith_tests_p503_exe PROPERTIES OUTPUT_NAME arith_tests-p503)
+		target_link_libraries(arith_tests_p503_exe PRIVATE ${PROJECT_P503_LIBS})
+		add_test(NAME arith_p503 COMMAND arith_tests-p503)
+
+		add_executable(PQCtestKAT_kem_p503_exe ${TESTER_SOURCES} ${KAT_TESTER_SOURCES} PQCtestKAT_kem503.c )
+		set_target_properties(PQCtestKAT_kem_p503_exe PROPERTIES OUTPUT_NAME PQCtestKAT_kem-p503)
+		target_link_libraries(PQCtestKAT_kem_p503_exe PRIVATE ${PROJECT_P503_LIBS})
+		add_test(NAME KAT_p503 COMMAND PQCtestKAT_kem-p503)
+	endif()
 
 	add_executable(test_SIDHp503_exe ${TESTER_SOURCES} test_SIDHp503.c)
 	set_target_properties(test_SIDHp503_exe PROPERTIES OUTPUT_NAME test_SIDH-p503)
@@ -63,18 +71,21 @@ if (ENABLE_P503)
 	target_link_libraries(test_SIKEp503_exe PRIVATE ${PROJECT_P503_LIBS})
 	add_test(NAME SIKE_p503 COMMAND test_SIKE-p503)
 
-	add_executable(PQCtestKAT_kem_p503_exe ${TESTER_SOURCES} ${KAT_TESTER_SOURCES} PQCtestKAT_kem503.c )
-	set_target_properties(PQCtestKAT_kem_p503_exe PROPERTIES OUTPUT_NAME PQCtestKAT_kem-p503)
-	target_link_libraries(PQCtestKAT_kem_p503_exe PRIVATE ${PROJECT_P503_LIBS})
-	add_test(NAME KAT_p503 COMMAND PQCtestKAT_kem-p503)
-
 endif()
 
 if (ENABLE_P751)
-	add_executable(arith_tests_p751_exe ${TESTER_SOURCES} arith_tests-p751.c)
-	set_target_properties(arith_tests_p751_exe PROPERTIES OUTPUT_NAME arith_tests-p751)
-	target_link_libraries(arith_tests_p751_exe PRIVATE ${PROJECT_P751_LIBS})
-	add_test(NAME arith_p751 COMMAND arith_tests-p751)
+	# arith and KAT tests need direct access to some internal functions
+	if (ENABLE_INTERNAL_TESTS)
+		add_executable(arith_tests_p751_exe ${TESTER_SOURCES} arith_tests-p751.c)
+		set_target_properties(arith_tests_p751_exe PROPERTIES OUTPUT_NAME arith_tests-p751)
+		target_link_libraries(arith_tests_p751_exe PRIVATE ${PROJECT_P751_LIBS})
+		add_test(NAME arith_p751 COMMAND arith_tests-p751)
+
+		add_executable(PQCtestKAT_kem_p751_exe ${TESTER_SOURCES} ${KAT_TESTER_SOURCES} PQCtestKAT_kem751.c )
+		set_target_properties(PQCtestKAT_kem_p751_exe PROPERTIES OUTPUT_NAME PQCtestKAT_kem-p751)
+		target_link_libraries(PQCtestKAT_kem_p751_exe PRIVATE ${PROJECT_P751_LIBS})
+		add_test(NAME KAT_p751 COMMAND PQCtestKAT_kem-p751)
+	endif()
 
 	add_executable(test_SIDHp751_exe ${TESTER_SOURCES} test_SIDHp751.c)
 	set_target_properties(test_SIDHp751_exe PROPERTIES OUTPUT_NAME test_SIDH-p751)
@@ -85,9 +96,4 @@ if (ENABLE_P751)
 	set_target_properties(test_SIKEp751_exe PROPERTIES OUTPUT_NAME test_SIKE-p751)
 	target_link_libraries(test_SIKEp751_exe PRIVATE ${PROJECT_P751_LIBS})
 	add_test(NAME SIKE_p751 COMMAND test_SIKE-p751)
-
-	add_executable(PQCtestKAT_kem_p751_exe ${TESTER_SOURCES} ${KAT_TESTER_SOURCES} PQCtestKAT_kem751.c )
-	set_target_properties(PQCtestKAT_kem_p751_exe PROPERTIES OUTPUT_NAME PQCtestKAT_kem-p751)
-	target_link_libraries(PQCtestKAT_kem_p751_exe PRIVATE ${PROJECT_P751_LIBS})
-	add_test(NAME KAT_p751 COMMAND PQCtestKAT_kem-p751)
 endif()

@@ -30,19 +30,19 @@ main(void)
     char                fn_rsp[32];
     FILE                *fp_rsp;
     unsigned char       seed[48];
-    unsigned char       ct[CRYPTO_CIPHERTEXTBYTES], ss[CRYPTO_BYTES], ss1[CRYPTO_BYTES], ct_rsp[CRYPTO_CIPHERTEXTBYTES], ss_rsp[CRYPTO_BYTES];
+    unsigned char       ct[SIKEp503_CIPHERTEXTBYTES], ss[SIKEp503_SHAREDBYTES], ss1[SIKEp503_SHAREDBYTES], ct_rsp[SIKEp503_CIPHERTEXTBYTES], ss_rsp[SIKEp503_SHAREDBYTES];
     int                 count;
     int                 done;
-    unsigned char       pk[CRYPTO_PUBLICKEYBYTES], sk[CRYPTO_SECRETKEYBYTES], pk_rsp[CRYPTO_PUBLICKEYBYTES], sk_rsp[CRYPTO_SECRETKEYBYTES];
+    unsigned char       pk[SIKEp503_PUBLICKEYBYTES], sk[SIKEp503_SECRETKEYBYTES], pk_rsp[SIKEp503_PUBLICKEYBYTES], sk_rsp[SIKEp503_SECRETKEYBYTES];
     int                 ret_val;
     
-    sprintf(fn_rsp, "KAT/PQCkemKAT_%d.rsp", CRYPTO_SECRETKEYBYTES);
+    sprintf(fn_rsp, "KAT/PQCkemKAT_%d.rsp", SIKEp503_SECRETKEYBYTES);
     if ( (fp_rsp = fopen(fn_rsp, "r")) == NULL ) {
         printf("Couldn't open <%s> for read\n", fn_rsp);
         return KAT_FILE_OPEN_ERROR;
     }
     
-    printf("# %s\n\n", CRYPTO_ALGNAME);
+    printf("# %s\n\n", SIKEp503_ALGNAME);
     done = 0;
     do {
         if ( FindMarker(fp_rsp, "count = ") ) {
@@ -67,20 +67,20 @@ main(void)
             printf("crypto_kem_keypair returned <%d>\n", ret_val);
             return KAT_CRYPTO_FAILURE;
         }
-        if ( !ReadHex(fp_rsp, pk_rsp, CRYPTO_PUBLICKEYBYTES, "pk = ") ) {
+        if ( !ReadHex(fp_rsp, pk_rsp, SIKEp503_PUBLICKEYBYTES, "pk = ") ) {
             printf("ERROR: unable to read 'pk' from <%s>\n", fn_rsp);
             return KAT_DATA_ERROR;
         }
-        if ( !ReadHex(fp_rsp, sk_rsp, CRYPTO_SECRETKEYBYTES, "sk = ") ) {
+        if ( !ReadHex(fp_rsp, sk_rsp, SIKEp503_SECRETKEYBYTES, "sk = ") ) {
             printf("ERROR: unable to read 'sk' from <%s>\n", fn_rsp);
             return KAT_DATA_ERROR;
         }
 
-        if(memcmp(pk,pk_rsp,CRYPTO_PUBLICKEYBYTES)!=0){
+        if(memcmp(pk,pk_rsp,SIKEp503_PUBLICKEYBYTES)!=0){
         printf("ERROR: pk is different from <%s>\n", fn_rsp);
         return KAT_VERIFICATION_ERROR;
         }
-        if(memcmp(sk,sk_rsp,CRYPTO_SECRETKEYBYTES)!=0){
+        if(memcmp(sk,sk_rsp,SIKEp503_SECRETKEYBYTES)!=0){
         printf("ERROR: sk is different from <%s>\n", fn_rsp);
         return KAT_VERIFICATION_ERROR;
         }
@@ -90,20 +90,20 @@ main(void)
             return KAT_CRYPTO_FAILURE;
         }
     
-        if ( !ReadHex(fp_rsp, ct_rsp, CRYPTO_CIPHERTEXTBYTES, "ct = ") ) {
+        if ( !ReadHex(fp_rsp, ct_rsp, SIKEp503_CIPHERTEXTBYTES, "ct = ") ) {
             printf("ERROR: unable to read 'pk' from <%s>\n", fn_rsp);
             return KAT_DATA_ERROR;
         }
-        if ( !ReadHex(fp_rsp, ss_rsp, CRYPTO_BYTES, "ss = ") ) {
+        if ( !ReadHex(fp_rsp, ss_rsp, SIKEp503_SHAREDBYTES, "ss = ") ) {
             printf("ERROR: unable to read 'sk' from <%s>\n", fn_rsp);
             return KAT_DATA_ERROR;
         }
 
-        if(memcmp(ct,ct_rsp,CRYPTO_CIPHERTEXTBYTES)!=0){
+        if(memcmp(ct,ct_rsp,SIKEp503_CIPHERTEXTBYTES)!=0){
             printf("ERROR: ct is different from <%s>\n", fn_rsp);
             return KAT_VERIFICATION_ERROR;
         }
-        if(memcmp(ss,ss_rsp,CRYPTO_BYTES)!=0){
+        if(memcmp(ss,ss_rsp,SIKEp503_SHAREDBYTES)!=0){
             printf("ERROR: ss is different from <%s>\n", fn_rsp);
             return KAT_VERIFICATION_ERROR;
         }
@@ -113,7 +113,7 @@ main(void)
             return KAT_CRYPTO_FAILURE;
         }
         
-        if ( memcmp(ss, ss1, CRYPTO_BYTES) ) {
+        if ( memcmp(ss, ss1, SIKEp503_SHAREDBYTES) ) {
             printf("crypto_kem_dec returned bad 'ss' value\n");
             return KAT_CRYPTO_FAILURE;
         }
