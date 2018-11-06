@@ -120,6 +120,8 @@ static const unsigned int strat_Bob[MAX_Bob-1] = {
 #define crypto_kem_dec                crypto_kem_dec_SIKEp751
 #define random_mod_order_A            random_mod_order_A_SIDHp751
 #define random_mod_order_B            random_mod_order_B_SIDHp751
+#define ext_random_mod_order_A        ext_random_mod_order_A_SIDHp751
+#define ext_random_mod_order_B        ext_random_mod_order_B_SIDHp751
 #define EphemeralKeyGeneration_A      EphemeralKeyGeneration_A_SIDHp751
 #define EphemeralKeyGeneration_B      EphemeralKeyGeneration_B_SIDHp751
 #define EphemeralSecretAgreement_A    EphemeralSecretAgreement_A_SIDHp751

@@ -77,9 +77,19 @@ SIDH_PUBLIC int crypto_kem_dec_SIKEp751(unsigned char *ss, const unsigned char *
 // Outputs random value in [0, 2^372 - 1] to be used as Alice's private key
 SIDH_PUBLIC void random_mod_order_A_SIDHp751(unsigned char* random_digits);
 
+// Generation of Alice's secret key using external RNG
+// the external RNG prototype must be rngFunction(void *context, unsigned char *output_buffer, long unsigned int output_size) - context can be null if not needed
+// Outputs random value in [0, 2^372 - 1] to be used as Alice's private key
+SIDH_PUBLIC void ext_random_mod_order_A_SIDHp751(unsigned char* random_digits, int (*rngFunction)(void *, unsigned char *, long unsigned int), void *rngContext);
+
 // Generation of Bob's secret key 
 // Outputs random value in [0, 2^Floor(Log(2,3^239)) - 1] to be used as Bob's private key
 SIDH_PUBLIC void random_mod_order_B_SIDHp751(unsigned char* random_digits);
+
+// Generation of Alice's secret key using external RNG
+// the external RNG prototype must be rngFunction(void *context, unsigned char *output_buffer, long unsigned int output_size) - context can be null if not needed
+// Outputs random value in [0, 2^Floor(Log(2,3^239)) - 1] to be used as Bob's private key
+SIDH_PUBLIC void ext_random_mod_order_B_SIDHp751(unsigned char* random_digits, int (*rngFunction)(void *, unsigned char *, long unsigned int), void *rngContext);
 
 // Alice's ephemeral public key generation
 // Input:  a private key PrivateKeyA in the range [0, 2^372 - 1], stored in 47 bytes. 
